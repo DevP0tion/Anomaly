@@ -83,7 +83,7 @@ abnormalities/
 │   ├── lib/
 │   │   ├── client/           # 클라이언트 측 유틸리티
 │   │   │   ├── discord.ts    # Discord SDK 통합
-│   │   │   ├── translation.ts # 국제화
+│   │   │   ├── translation.ts # 지역화
 │   │   │   └── game/         # 게임 메커니즘
 │   │   ├── server/           # 서버 측 유틸리티
 │   │   │   ├── db.ts         # 데이터베이스 연결
@@ -92,9 +92,9 @@ abnormalities/
 │   │       └── math.ts       # 수학 함수
 │   ├── routes/
 │   │   ├── game/
-│   │   │   ├── exploration/  # 탐험 게임 모드
-│   │   │   ├── field/        # 필드 활동
-│   │   │   └── shelter/      # 대피소 관리
+│   │   │   ├── exploration/  # 디스코드 서버 전용 탐험 맵? 페이지
+│   │   │   ├── field/        # 모험 페이지
+│   │   │   └── shelter/      # 자원 관리 및 준비 페이지
 │   │   └── api/              # API 엔드포인트
 │   └── app.html              # 메인 HTML 템플릿
 ├── static/                   # 정적 자산
