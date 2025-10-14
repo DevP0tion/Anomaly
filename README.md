@@ -1,4 +1,4 @@
-# Abnormalities
+# Anomaly
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Svelte](https://img.shields.io/badge/Svelte-5.39.11-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/)
