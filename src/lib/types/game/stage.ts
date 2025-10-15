@@ -26,20 +26,6 @@ export type NodeTypes =
 	| typeof EliteNode
 	| typeof BossNode;
 
-// Path Types
-const BlankPath: 0 = 0;
-const TopPath: 1 = 1;
-const BottomPath: 2 = 2;
-
-export const PathTypes = {
-	Top: TopPath,
-	Bottom: BottomPath,
-	Blank: BlankPath,
-} as const;
-
-export type PathTypes = typeof TopPath | typeof BottomPath | typeof BlankPath;
-
 export type StageData = {
 	readonly nodes: NodeTypes[][];
-	readonly paths: PathTypes[][];
 };

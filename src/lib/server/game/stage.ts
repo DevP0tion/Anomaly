@@ -1,4 +1,4 @@
-import { NodeTypes, PathTypes, type StageData } from '$lib/types/game/stage';
+import { NodeTypes, type StageData } from '$lib/types/game/stage';
 import { sampleFromSet } from '$lib/util/math';
 
 export type StageGenConfig = {
@@ -14,11 +14,9 @@ export type StageGenConfig = {
 
 export class StageServer {
 	public readonly nodes: NodeTypes[][];
-	public readonly paths: PathTypes[][];
 
 	public constructor(config: StageGenConfig) {
 		this.nodes = this.generateNodes(config);
-		this.paths = this.generatePaths();
 	}
 
 	public get height(): number {
@@ -68,46 +66,9 @@ export class StageServer {
 		return result;
 	}
 
-	private generatePaths(): PathTypes[][] {
-		const nodes = this.nodes;
-
-		const result: PathTypes[][] = Array.from(
-			{ length: this.height - 1 },
-			(_, y) =>
-				Array.from({ length: this.width - 1 }, (_, x) => {
-					const beforeTop = nodes[y][x];
-					const beforeBottom = nodes[y + 1][x];
-					const afterTop = nodes[y][x + 1];
-					const afterBottom = nodes[y + 1][x + 1];
-
-					let topChace =
-							beforeBottom !== NodeTypes.Blank && afterTop !== NodeTypes.Blank
-								? 4
-								: 0,
-						bottomChace =
-							beforeTop !== NodeTypes.Blank && afterBottom !== NodeTypes.Blank
-								? 4
-								: 0,
-						blankChace = 2;
-
-					const rand = Math.random() * (topChace + bottomChace + blankChace);
-
-					if (rand < topChace) return PathTypes.Top;
-					if (rand < topChace + bottomChace) return PathTypes.Bottom;
-					if (rand < topChace + bottomChace + blankChace)
-						return PathTypes.Blank;
-
-					return PathTypes.Blank;
-				})
-		);
-
-		return result;
-	}
-
 	public toJSON(): StageData {
 		return {
 			nodes: this.nodes,
-			paths: this.paths,
 		};
 	}
 }
