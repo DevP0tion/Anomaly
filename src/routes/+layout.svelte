@@ -12,7 +12,15 @@
 
 <style lang="scss">
 	:global(body) {
+		margin: 0;
+		padding: 0;
+		height: 100vh;
+
 		background-color: #121212;
 		color: white;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
