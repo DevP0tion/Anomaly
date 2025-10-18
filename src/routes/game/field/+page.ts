@@ -6,3 +6,5 @@ export function load(params) {
 
 	return { stage };
 }
+
+export type FieldComponents = 'fieldView' | 'battle';

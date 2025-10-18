@@ -29,10 +29,11 @@ export class StageServer {
 
 	private generateNodes(config: StageGenConfig): NodeTypes[][] {
 		const {
-			height,
-			length,
 			nodeConfig: { shop, blank, event, elite },
 		} = config;
+
+		const height = config.height;
+		const length = config.length + 3;
 
 		const result: NodeTypes[][] = Array.from({ length: height }, () =>
 			Array.from({ length: length }, () => NodeTypes.Normal)
@@ -42,24 +43,45 @@ export class StageServer {
 			Array.from({ length: height * length }, (_, i) => i)
 		);
 
-		const nodePool: [NodeTypes, number][] = [
-			[NodeTypes.Shop, shop ?? 0],
-			[NodeTypes.Blank, blank ?? 0],
-			[NodeTypes.Event, event ?? 0],
-			[NodeTypes.Elite, elite ?? 0],
-		];
+		{
+			// 0, length - 2, length - 1 열은 시작, 상점, 보스 노드로 고정
 
-		for (const [nodeType, amount] of nodePool) {
-			if (amount <= 0) continue;
-			const positions = sampleFromSet(indexSet, amount, {
-				replace: true,
-				allowPartial: false,
-			});
+			for (let y = 0; y < height; y++) {
+				indexSet.delete(y * length);
+				indexSet.delete(y * length + (length - 2));
+				indexSet.delete(y * length + (length - 1));
+			}
 
-			for (const pos of positions) {
-				const row = Math.floor(pos / length);
-				const col = pos % length;
-				result[row][col] = nodeType;
+			// 시작, 상점, 보스 노드 배치
+			for (let y = 0; y < height; y++) {
+				result[y][0] = NodeTypes.Start;
+				result[y][length - 2] = NodeTypes.Shop;
+				result[y][length - 1] = NodeTypes.Boss;
+			}
+		}
+
+		{
+			// 노드 배치
+
+			const nodePool: [NodeTypes, number][] = [
+				[NodeTypes.Shop, shop ?? 0],
+				[NodeTypes.Blank, blank ?? 0],
+				[NodeTypes.Event, event ?? 0],
+				[NodeTypes.Elite, elite ?? 0],
+			];
+
+			for (const [nodeType, amount] of nodePool) {
+				if (amount <= 0) continue;
+				const positions = sampleFromSet(indexSet, amount, {
+					replace: true,
+					allowPartial: false,
+				});
+
+				for (const pos of positions) {
+					const y = Math.floor(pos / length);
+					const x = pos % length;
+					result[y][x] = nodeType;
+				}
 			}
 		}
 

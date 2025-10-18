@@ -1,3 +1,55 @@
+export function sampleFromArray<T>(
+	array: T[],
+	amount: number,
+	options?: {
+		mode?: 'default' | 'replace' | 'partial';
+		rng?: () => number;
+	}
+): T[] {
+	const result: T[] = [];
+	const mode = options?.mode ?? 'default';
+	const rng = options?.rng ?? Math.random;
+
+	// amount를 정수로 보정
+
+	// 배열이 비어있거나 count가 0인 경우
+	if (array.length === 0 || amount <= 0) {
+		return result;
+	}
+
+	if (mode === 'partial') {
+		// partial: 값 중복 허용, 원본 배열에서 제거하지 않음
+		for (let i = 0; i < amount; i++) {
+			const randomIndex = Math.floor(rng() * array.length);
+			result.push(array[randomIndex]);
+		}
+		return result;
+	}
+
+	if (mode === 'default') {
+		// default: 중복 없이 추출, 원본 배열은 변경하지 않음
+		const availableItems = [...array];
+		const actual = Math.min(amount, availableItems.length);
+		for (let i = 0; i < actual; i++) {
+			const randomIndex = Math.floor(rng() * availableItems.length);
+			const selected = availableItems.splice(randomIndex, 1)[0];
+			result.push(selected);
+		}
+		return result;
+	}
+
+	// mode === 'replace'
+	// replace: 중복 없이 추출하며 원본 배열에서 제거
+	const actual = Math.min(amount, array.length);
+	for (let i = 0; i < actual; i++) {
+		const randomIndex = Math.floor(rng() * array.length);
+		const selected = array.splice(randomIndex, 1)[0]; // 원본에서 제거
+		result.push(selected);
+	}
+
+	return result;
+}
+
 export function sampleFromSet<T>(
 	set: Set<T>,
 	amount: number,

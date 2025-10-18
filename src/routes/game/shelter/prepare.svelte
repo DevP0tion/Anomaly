@@ -21,13 +21,23 @@
 
 <Card theme="dark">
 	<CardHeader>
-		<CardTitle>Prepare for the adventure!</CardTitle>
+		<CardTitle>Season 0: Paper barn</CardTitle>
 	</CardHeader>
 	<CardBody>
 		<CardText>
-			Get ready for an exciting journey ahead. Make sure you have everything you
-			need!
-			<Button href="/game/field" color="primary">Next</Button>
+			<div class="cardText">
+				<Button href="/game/field" color="primary">던전 진입</Button>
+			</div>
 		</CardText>
 	</CardBody>
 </Card>
+
+<style lang="scss">
+	.cardText {
+		display: flex;
+		flex-direction: column;
+		font-size: 16px;
+		line-height: 1.5;
+		color: #fff;
+	}
+</style>
